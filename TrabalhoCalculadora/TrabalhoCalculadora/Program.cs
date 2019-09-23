@@ -7,72 +7,121 @@ namespace TrabalhoCalculadora
         static void Main(string[] args)
         {
             bool finalizarAplicacao = false;
+            string numero1 = "";
+            string numero2 = "";
+            float resultado = 0.0f;
+            float Numero1 = 0.0f;
+            float Numero2 = 0.0f;
+            float param1 = 0.0f;
+            float param2 = 0.0f;
+
+            string opcao;
 
             Console.WriteLine("Calculadora em C#\r");
             Console.WriteLine("------------------------\n");
+            Calculadora calculadora = new Calculadora();
+            
 
             while (!finalizarAplicacao)
             {
-                string numero1 = "";
-                string numero2 = "";
-                var resultado = 0.0f;
+                               
+                Menu();
+                Console.Write("Opção: ");
+                opcao = Console.ReadLine();
 
-                Console.Clear();
-                Console.WriteLine("Escolha a operação:");
+                if (opcao.Equals("f"))
+                {
+                    finalizarAplicacao = true;
+                }
+                else {
+                    Entradas();
+                    
+                }
+
+
+            }
+            void Menu()
+            {
+                
+                Console.WriteLine("ESCOLHA A OPERAÇÃO: \n");
                 Console.WriteLine("\ta - Adicionar");
                 Console.WriteLine("\ts - Subtrair");
                 Console.WriteLine("\tm - Multiplicar");
                 Console.WriteLine("\td - Dividir");
                 Console.WriteLine("\tt - Soma Total");
                 Console.WriteLine("\tmd - Média");
-                Console.WriteLine("\tf - Fechar");
+                Console.WriteLine("\tf - Fechar \n");
+            }
 
-                Console.Write("Opção: ");
-                string opcao = Console.ReadLine();
 
-                if (opcao.Trim().Equals("f"))
-                    finalizarAplicacao = true;
-                else
+            void Entradas()
+            {
+                Console.Clear();
+                switch (opcao)
                 {
-                    try
-                    {
-
+                    case "a":
+                    case "s":
+                    case "m":
+                    case "d":
                         Console.Write("Numero1: ");
                         numero1 = Console.ReadLine();
+                        float.TryParse(numero1, out param1);
+                        calculadora.Memoria.Add(param1);
 
-                        var Numero1 = 0.0f;
                         while (!float.TryParse(numero1, out Numero1))
                         {
                             Console.Write("Número não é válido. Digite um correto: ");
                             numero1 = Console.ReadLine();
+                                                   
                         }
 
                         Console.Write("Numero2: ");
                         numero2 = Console.ReadLine();
-
-                        var Numero2 = 0.0f;
+                        float.TryParse(numero2, out param2);
+                        calculadora.Memoria.Add(param2);
                         while (!float.TryParse(numero2, out Numero2))
                         {
                             Console.Write("Número não é válido. Digite um correto: ");
                             numero2 = Console.ReadLine();
+                                                                            
                         }
 
-                        var Calculadora = new Calculadora();
-                        resultado = Calculadora.RealizarOperacao(Numero1, Numero2, opcao);
+                        resultado = calculadora.RealizarOperacao(Numero1, Numero2, opcao);
                         if (double.IsNaN(resultado))
                         {
                             Console.WriteLine("Erro na operação matemática.\n");
                         }
                         else Console.WriteLine("Resultado: {0}\n", resultado);
                         Console.ReadKey();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Ocorreu um erro ao processar: " + e.Message);
-                    }
+
+                        break;
+
+                    case "t":
+                        Console.Clear();
+                        calculadora.RealizaMedia(opcao);
+                        resultado = calculadora.RealizaMedia(opcao);
+                        Console.WriteLine("O Total da somas dos numeros armazenados é: \n");
+                        Console.WriteLine("Resultado = {0} ", resultado);
+                        Console.ReadKey();
+                        break;
+
+                    case "md":
+                        Console.Clear();
+                        calculadora.RealizaMedia(opcao);
+                        resultado = calculadora.RealizaMedia(opcao);
+                        Console.WriteLine("A Média dos numeros armazenados é: \n");
+                        Console.WriteLine("Resultado = {0} ", resultado);
+                        Console.ReadKey();
+                        break;
+
 
                 }
             }
+              
+
+        
+    
         }
+
     }
 }
